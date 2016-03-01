@@ -1,0 +1,8 @@
+<resources>
+	<string name="app_name">IwantToGoHome</string>
+	<string name="settingHomeName_text">---</string>
+	<string name="HomeName_text">---</string>
+	<string name="title_activity_maps">Map</string>
+	<string name="title_activity_registration_maps">Map</string>
+	<string name="title_activity_go_home_maps">Map</string>
+</resources>

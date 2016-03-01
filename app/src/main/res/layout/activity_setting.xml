@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical"
+	tools:context="com.lifeistech.android.iwonthome.SettingActivity">
+
+	<TextView
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
+		android:layout_weight="2"
+		android:layout_margin="16dp"
+		android:text="登録したいスロットを\n選択してください"
+		android:textSize="@dimen/top_textsize"
+		android:textColor="@color/textcolor_black"
+		android:gravity="center"/>
+
+	<!--<Button-->
+	<!--android:id="@+id/setting_home1_btn"-->
+	<!--android:layout_width="match_parent"-->
+	<!--android:layout_height="0dp"-->
+	<!--android:layout_weight="2"-->
+	<!--android:layout_margin="24dp"-->
+	<!--android:text="未登録"-->
+	<!--android:textSize="24sp"-->
+	<!--android:textColor="@color/textcolor_black"/>-->
+
+
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
+		android:layout_weight="1"
+		android:orientation="horizontal">
+
+		<Button
+			android:id="@+id/home_btn1"
+			android:text="@string/settingHomeName_text"
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:layout_weight="1"
+			android:textSize="@dimen/homeName_textsize"
+			android:layout_marginRight="16dp"
+			android:layout_marginLeft="16dp"
+			android:textColor="@color/textcolor_black"/>
+
+
+		<Button
+			android:id="@+id/home_btn2"
+			android:text="@string/settingHomeName_text"
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:layout_weight="1"
+			android:textSize="@dimen/homeName_textsize"
+			android:layout_marginRight="16dp"
+			android:layout_marginLeft="16dp"
+			android:textColor="@color/textcolor_black"/>
+
+	</LinearLayout>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
+		android:layout_weight="1"
+		android:orientation="horizontal"
+		android:layout_marginTop="16dp">
+
+		<Button
+			android:id="@+id/home_btn3"
+			android:text="@string/settingHomeName_text"
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:layout_weight="1"
+			android:textSize="@dimen/homeName_textsize"
+			android:layout_marginRight="16dp"
+			android:layout_marginLeft="16dp"
+			android:textColor="@color/textcolor_black"/>
+
+
+		<Button
+			android:id="@+id/home_btn4"
+			android:text="@string/settingHomeName_text"
+			android:layout_width="0dp"
+			android:layout_height="match_parent"
+			android:layout_weight="1"
+			android:textSize="@dimen/homeName_textsize"
+			android:layout_marginRight="16dp"
+			android:layout_marginLeft="16dp"
+			android:textColor="@color/textcolor_black"/>
+
+	</LinearLayout>
+
+
+
+	<!--ボタンだった名残が残ってる-->
+	<TextView
+		android:id="@+id/homDelete_btn"
+		android:text="長押しで削除できます"
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
+		android:layout_weight="1"
+		android:textSize="@dimen/setting_textsize"
+		android:gravity="center"
+		android:textColor="@color/textcolor_black"
+		android:layout_marginTop="24dp"
+		android:layout_marginBottom="24dp"/>
+
+</LinearLayout>
