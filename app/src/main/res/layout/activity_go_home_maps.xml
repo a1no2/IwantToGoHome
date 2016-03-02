@@ -59,7 +59,7 @@
 			<TextView
 				android:id="@+id/item_text"
 				android:layout_width="match_parent"
-				android:layout_height="100dp"
+				android:layout_height="wrap_content"
 				android:gravity="center"
 				android:text=""
 				android:textColor="@color/textcolor_black"
@@ -68,6 +68,19 @@
 				android:textSize="@dimen/top_textsize"/>
 
 		</LinearLayout>
+
+		<TextView
+			android:id="@+id/count_text"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text=""
+			android:layout_gravity="bottom"
+			android:paddingTop="@dimen/comment_margin"
+			android:paddingBottom="@dimen/comment_margin"
+			android:layout_margin="5dp"
+			android:background="#eeee"
+			android:visibility="invisible"
+			android:gravity="center_horizontal"/>
 
 
 	</FrameLayout>

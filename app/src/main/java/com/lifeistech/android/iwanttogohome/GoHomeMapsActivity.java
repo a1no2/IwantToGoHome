@@ -40,7 +40,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class GoHomeMapsActivity extends FragmentActivity implements OnMapReadyCallback, RoutingListener, View.OnClickListener{
+public class GoHomeMapsActivity extends FragmentActivity implements OnMapReadyCallback, RoutingListener, View.OnClickListener {
     private GoogleMap googleMap;
     MarkerOptions options;
     Location loc;
@@ -56,14 +56,16 @@ public class GoHomeMapsActivity extends FragmentActivity implements OnMapReadyCa
     int item_goHome;
     private Handler handler;
     private Runnable setItemText;
-    private int id,count;
-    private double lat,lon;
+    private int id, count;
+    private double lat, lon;
 
-    TextView item_text,itemMini_text;
+    TextView item_text, itemMini_text;
     boolean textVisibility_bool;        //trueで降ってくる状態
 
     Button back_btn;
     ImageButton joke_btn;
+    TextView count_text;
+    boolean count_bool;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,17 +98,19 @@ public class GoHomeMapsActivity extends FragmentActivity implements OnMapReadyCa
         polylines = new ArrayList<>();
 
 
-        item_text = (TextView)findViewById(R.id.item_text);
+        item_text = (TextView) findViewById(R.id.item_text);
         item_text.setOnClickListener(this);
-        itemMini_text = (TextView)findViewById(R.id.itemMini_text);
+        itemMini_text = (TextView) findViewById(R.id.itemMini_text);
         itemMini_text.setOnClickListener(this);
         textVisibility_bool = true;
 
-        back_btn = (Button)findViewById(R.id.back_btn);
+        back_btn = (Button) findViewById(R.id.back_btn);
         back_btn.setOnClickListener(this);
-        joke_btn = (ImageButton)findViewById(R.id.joke_btn);
+        joke_btn = (ImageButton) findViewById(R.id.joke_btn);
         joke_btn.setOnClickListener(this);
-
+        count_text = (TextView) findViewById(R.id.count_text);
+        count_text.setOnClickListener(this);
+        count_bool = false;
 
 
     }
@@ -153,7 +157,7 @@ public class GoHomeMapsActivity extends FragmentActivity implements OnMapReadyCa
 
         //ピンの場所まで移動のアニメーション
         CameraPosition Camera = new CameraPosition.Builder()
-                .target(start).zoom(12.0f)
+                .target(end).zoom(12.0f)
                 .bearing(0).tilt(25).build();
         googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(Camera));
 
@@ -167,11 +171,7 @@ public class GoHomeMapsActivity extends FragmentActivity implements OnMapReadyCa
         routing.execute();
 
 
-
-
-
     }
-
 
 
     //ルート関係
@@ -192,20 +192,14 @@ public class GoHomeMapsActivity extends FragmentActivity implements OnMapReadyCa
     public void onRoutingSuccess(ArrayList<Route> route, int shortestRouteIndex) {
 
         item_goHome = route.get(0).getDurationValue();        //移動時間(秒
-//        Toast.makeText(GoHomeMapsActivity.this,item + "" ,Toast.LENGTH_LONG).show();
 
-
-        Log.d("aa","ss");
         //現在時刻
-//        item item = new item();
         Date nowitem = new Date(System.currentTimeMillis() + (item_goHome * 1000));
-        DateFormat formatter = new SimpleDateFormat("MM月dd日 HH時mm分\nには " + homeName_str + " に!!!");
+        DateFormat formatter = new SimpleDateFormat("MM月dd日 HH時mm分");
 
         // フォーマット
-        final String nowText = formatter.format(nowitem);
-
-
-
+        String nowText = formatter.format(nowitem);
+//        nowText += ;
 
 
         Log.d("帰宅所要時間", item_goHome + "");
@@ -226,8 +220,8 @@ public class GoHomeMapsActivity extends FragmentActivity implements OnMapReadyCa
         s = item_goHome;
 //        Toast.makeText(GoHomeMapsActivity.this, item_str, Toast.LENGTH_LONG).show();
 
-        item_text.setText(nowText + "");
-        itemMini_text.setText(nowText + "");
+        item_text.setText("今 帰りはじめれば\n" + nowText + "に\n" + homeName_str + "\nに帰れます!!!");
+        itemMini_text.setText(homeName_str + "\n" + nowText);
 
 
         handler = new Handler();
@@ -277,13 +271,7 @@ public class GoHomeMapsActivity extends FragmentActivity implements OnMapReadyCa
             Polyline polyline = googleMap.addPolyline(polyOptions);
             polylines.add(polyline);
 
-
-
-
-
         }
-
-
 
     }
 
@@ -294,9 +282,9 @@ public class GoHomeMapsActivity extends FragmentActivity implements OnMapReadyCa
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.item_text:
-                if (textVisibility_bool){
+                if (textVisibility_bool) {
 
                 } else {
                     textVisibility_bool = true;
@@ -321,7 +309,7 @@ public class GoHomeMapsActivity extends FragmentActivity implements OnMapReadyCa
                 }
                 break;
             case R.id.itemMini_text:
-                if (textVisibility_bool){
+                if (textVisibility_bool) {
                     textVisibility_bool = false;
                     item_text.setVisibility(View.VISIBLE);
                     YoYo.with(Techniques.SlideInDown)
@@ -349,8 +337,24 @@ public class GoHomeMapsActivity extends FragmentActivity implements OnMapReadyCa
                 finish();
                 break;
 
+            //変数名はいらんこと言おうとしてた名残
             case R.id.joke_btn:
+                if (count_bool) {
+                    count_bool = false;
+                    count_text.setVisibility(View.INVISIBLE);
+                } else {
+                    count_bool = true;
+                    count_text.setText("帰れる時間確認したのはこれで\n" + count + "回目です");
+                    count_text.setVisibility(View.VISIBLE);
+                    YoYo.with(Techniques.FadeInUp)
+                            .duration(1000)
+                            .playOn(count_text);
+                }
+                break;
 
+            case R.id.count_text:
+                count_bool = !count_bool;
+                count_text.setVisibility(View.INVISIBLE);
                 break;
 
         }

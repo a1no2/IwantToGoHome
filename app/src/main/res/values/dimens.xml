@@ -5,4 +5,5 @@
     <dimen name="top_textsize">32sp</dimen>
     <dimen name="homeName_textsize">20sp</dimen>
     <dimen name="setting_textsize">20sp</dimen>
+    <dimen name="comment_margin">20dp</dimen>
 </resources>
