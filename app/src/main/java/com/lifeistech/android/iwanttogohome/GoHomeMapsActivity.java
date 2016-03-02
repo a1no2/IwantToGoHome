@@ -37,23 +37,26 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class GoHomeMapsActivity extends FragmentActivity implements OnMapReadyCallback, RoutingListener {
+public class GoHomeMapsActivity extends FragmentActivity implements OnMapReadyCallback, RoutingListener, View.OnClickListener{
     private GoogleMap googleMap;
     MarkerOptions options;
     Location loc;
     private ArrayList<Polyline> polylines;
     Routing routing;
 
-    TextView time_text;
     int homeId;
     double homeLatitude, homeLongitude;     //いな説じー
     double nowLatitude, nowLongitude;       //らいふょ
     String homeName_str;
     LatLng start, end;
 
-    int time_goHome;
+    int item_goHome;
     private Handler handler;
-    private Runnable setTimeText;
+    private Runnable setItemText;
+
+
+    TextView item_text,itemMini_text;
+    boolean textVisibility_bool;        //trueで降ってくる状態
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,10 +83,11 @@ public class GoHomeMapsActivity extends FragmentActivity implements OnMapReadyCa
         polylines = new ArrayList<>();
 
 
-        time_text = (TextView)findViewById(R.id.time_text);
-
-
-
+        item_text = (TextView)findViewById(R.id.item_text);
+        item_text.setOnClickListener(this);
+        itemMini_text = (TextView)findViewById(R.id.itemMini_text);
+        itemMini_text.setOnClickListener(this);
+        textVisibility_bool = true;
 
 
 
@@ -168,60 +172,58 @@ public class GoHomeMapsActivity extends FragmentActivity implements OnMapReadyCa
     @Override
     public void onRoutingSuccess(ArrayList<Route> route, int shortestRouteIndex) {
 
-        time_goHome = route.get(0).getDurationValue();        //移動時間(秒
-//        Toast.makeText(GoHomeMapsActivity.this,time + "" ,Toast.LENGTH_LONG).show();
+        item_goHome = route.get(0).getDurationValue();        //移動時間(秒
+//        Toast.makeText(GoHomeMapsActivity.this,item + "" ,Toast.LENGTH_LONG).show();
 
 
         Log.d("aa","ss");
         //現在時刻
-//        Time time = new Time();
-        Date nowTime = new Date(System.currentTimeMillis() + (time_goHome * 1000));
+//        item item = new item();
+        Date nowitem = new Date(System.currentTimeMillis() + (item_goHome * 1000));
         DateFormat formatter = new SimpleDateFormat("MM月dd日 HH時mm分\nには " + homeName_str + " に");
 
         // フォーマット
-        final String nowText = formatter.format(nowTime);
+        final String nowText = formatter.format(nowitem);
 //        Toast.makeText(GoHomeMapsActivity.this,nowText + "" ,Toast.LENGTH_LONG).show();
 
 
 
 
 
-        Log.d("帰宅所要時間", time_goHome + "");
+        Log.d("帰宅所要時間", item_goHome + "");
 
         int h, m, s;
-        String time_str = "";
-        if (time_goHome > 3600) {
-            h = time_goHome / 3600;
-            time_str += h + "時間";
-            time_goHome -= (h * 3600);
+        String item_str = "";
+        if (item_goHome > 3600) {
+            h = item_goHome / 3600;
+            item_str += h + "時間";
+            item_goHome -= (h * 3600);
         }
-        if (time_goHome > 60) {
-            m = time_goHome / 60;
-            time_str += m + "分";
-            time_goHome -= (m * 60);
+        if (item_goHome > 60) {
+            m = item_goHome / 60;
+            item_str += m + "分";
+            item_goHome -= (m * 60);
         }
-        time_str += time_goHome + "秒";
-        s = time_goHome;
-//        Toast.makeText(GoHomeMapsActivity.this, time_str, Toast.LENGTH_LONG).show();
+        item_str += item_goHome + "秒";
+        s = item_goHome;
+//        Toast.makeText(GoHomeMapsActivity.this, item_str, Toast.LENGTH_LONG).show();
 
-        time_text.setText(nowText + "");
+        item_text.setText(nowText + "");
+        itemMini_text.setText(nowText + "");
 
 
         handler = new Handler();
-        setTimeText = new Runnable() {
+        setItemText = new Runnable() {
             public void run() {
-
-                time_text.setVisibility(View.VISIBLE);
+                textVisibility_bool = false;
+                item_text.setVisibility(View.VISIBLE);
                 YoYo.with(Techniques.SlideInDown)
                         .duration(1000)
-                        .playOn(time_text);
-
-
+                        .playOn(item_text);
             }
         };
-
-        handler.removeCallbacks(setTimeText);
-        handler.postDelayed(setTimeText, 2000);
+        handler.removeCallbacks(setItemText);
+        handler.postDelayed(setItemText, 2000);
 
 
 
@@ -245,5 +247,63 @@ public class GoHomeMapsActivity extends FragmentActivity implements OnMapReadyCa
     @Override
     public void onRoutingCancelled() {
         Log.d("cancel", "しゅごい");
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.item_text:
+                if (textVisibility_bool){
+
+                } else {
+                    textVisibility_bool = true;
+                    itemMini_text.setVisibility(View.VISIBLE);
+                    YoYo.with(Techniques.SlideInDown)
+                            .duration(1000)
+                            .playOn(itemMini_text);
+
+                    YoYo.with(Techniques.SlideOutUp)
+                            .duration(1000)
+                            .playOn(item_text);
+
+                    handler = new Handler();
+                    Runnable invisible = new Runnable() {
+                        public void run() {
+                            item_text.setVisibility(View.INVISIBLE);
+                        }
+                    };
+                    handler.removeCallbacks(invisible);
+                    handler.postDelayed(invisible, 1000);
+
+                }
+                break;
+            case R.id.itemMini_text:
+                if (textVisibility_bool){
+                    textVisibility_bool = false;
+                    item_text.setVisibility(View.VISIBLE);
+                    YoYo.with(Techniques.SlideInDown)
+                            .duration(1000)
+                            .playOn(item_text);
+
+
+                    YoYo.with(Techniques.SlideOutUp)
+                            .duration(1000)
+                            .playOn(itemMini_text);
+
+                    handler = new Handler();
+                    Runnable invisible = new Runnable() {
+                        public void run() {
+                            itemMini_text.setVisibility(View.INVISIBLE);
+                        }
+                    };
+                    handler.removeCallbacks(invisible);
+                    handler.postDelayed(invisible, 1000);
+                }
+
+                break;
+
+        }
+
+
     }
 }

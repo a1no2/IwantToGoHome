@@ -11,7 +11,8 @@
 	<FrameLayout
 		android:layout_width="match_parent"
 		android:layout_height="0dp"
-		android:layout_weight="9">
+		android:layout_weight="10">
+
 		<fragment
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
@@ -21,16 +22,46 @@
 		<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
+			android:orientation="horizontal"
+			android:weightSum="5"
+			android:gravity="center_horizontal">
+			<Space
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"/>
+
+			<TextView
+				android:id="@+id/itemMini_text"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="3"
+				android:text=""
+				android:textColor="@color/textcolor_black"
+				android:gravity="center"
+				android:visibility="invisible"
+				android:background="#ceee"/>
+
+			<Space
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="1"/>
+		</LinearLayout>
+
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
 			android:orientation="vertical"
 			android:weightSum="10"
 			android:gravity="center">
 
 			<TextView
-				android:id="@+id/time_text"
+				android:id="@+id/item_text"
 				android:layout_width="match_parent"
 				android:layout_height="100dp"
 				android:gravity="center"
 				android:text=""
+				android:textColor="@color/textcolor_black"
 				android:visibility="invisible"
 				android:background="#aeee"
 				android:textSize="@dimen/top_textsize"/>
@@ -38,22 +69,19 @@
 		</LinearLayout>
 
 
-
 	</FrameLayout>
 
-	<LinearLayout
-		android:layout_width="match_parent"
-		android:layout_height="0dp"
-		android:layout_weight="1"
-		android:orientation="horizontal">
-		<Button
-			android:id="@+id/aa"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:text="aaaa"/>
-	</LinearLayout>
-
-
+	<!--<LinearLayout-->
+	<!--android:layout_width="match_parent"-->
+	<!--android:layout_height="0dp"-->
+	<!--android:layout_weight="1"-->
+	<!--android:orientation="horizontal">-->
+	<!--<Button-->
+	<!--android:id="@+id/aa"-->
+	<!--android:layout_width="match_parent"-->
+	<!--android:layout_height="match_parent"-->
+	<!--android:text="aaaa"/>-->
+	<!--</LinearLayout>-->
 
 
 </LinearLayout>
