@@ -11,7 +11,7 @@
 	<FrameLayout
 		android:layout_width="match_parent"
 		android:layout_height="0dp"
-		android:layout_weight="10">
+		android:layout_weight="9">
 
 		<fragment
 			android:layout_width="match_parent"
@@ -25,6 +25,7 @@
 			android:orientation="horizontal"
 			android:weightSum="5"
 			android:gravity="center_horizontal">
+
 			<Space
 				android:layout_width="0dp"
 				android:layout_height="wrap_content"
@@ -71,17 +72,23 @@
 
 	</FrameLayout>
 
-	<!--<LinearLayout-->
-	<!--android:layout_width="match_parent"-->
-	<!--android:layout_height="0dp"-->
-	<!--android:layout_weight="1"-->
-	<!--android:orientation="horizontal">-->
-	<!--<Button-->
-	<!--android:id="@+id/aa"-->
-	<!--android:layout_width="match_parent"-->
-	<!--android:layout_height="match_parent"-->
-	<!--android:text="aaaa"/>-->
-	<!--</LinearLayout>-->
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
+		android:layout_weight="1"
+		android:orientation="horizontal">
+
+		<ImageButton
+			android:id="@+id/joke_btn"
+			android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			android:src="@android:drawable/stat_notify_chat"/>
+		<Button
+			android:id="@+id/back_btn"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:text="(作業に)戻る"/>
+	</LinearLayout>
 
 
 </LinearLayout>

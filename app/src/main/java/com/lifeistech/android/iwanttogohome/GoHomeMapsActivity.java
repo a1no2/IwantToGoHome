@@ -9,9 +9,12 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.activeandroid.query.Delete;
 import com.activeandroid.query.Select;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
@@ -53,10 +56,14 @@ public class GoHomeMapsActivity extends FragmentActivity implements OnMapReadyCa
     int item_goHome;
     private Handler handler;
     private Runnable setItemText;
-
+    private int id,count;
+    private double lat,lon;
 
     TextView item_text,itemMini_text;
     boolean textVisibility_bool;        //trueで降ってくる状態
+
+    Button back_btn;
+    ImageButton joke_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,8 +76,14 @@ public class GoHomeMapsActivity extends FragmentActivity implements OnMapReadyCa
         //DB
         List<HomeDB> list = new Select().from(HomeDB.class).where("home_id = ?", homeId).execute();
         for (HomeDB homeDB : list) {
-            end = new LatLng(homeDB.latitude, homeDB.longitude);
+            id = homeDB.homeId;
             homeName_str = homeDB.home_name;
+            lat = homeDB.latitude;
+            lon = homeDB.longitude;
+            end = new LatLng(lat, lon);
+            count = homeDB.numberOFruns + 1;
+
+
         }
 
         //Map関係
@@ -88,6 +101,11 @@ public class GoHomeMapsActivity extends FragmentActivity implements OnMapReadyCa
         itemMini_text = (TextView)findViewById(R.id.itemMini_text);
         itemMini_text.setOnClickListener(this);
         textVisibility_bool = true;
+
+        back_btn = (Button)findViewById(R.id.back_btn);
+        back_btn.setOnClickListener(this);
+        joke_btn = (ImageButton)findViewById(R.id.joke_btn);
+        joke_btn.setOnClickListener(this);
 
 
 
@@ -180,11 +198,10 @@ public class GoHomeMapsActivity extends FragmentActivity implements OnMapReadyCa
         //現在時刻
 //        item item = new item();
         Date nowitem = new Date(System.currentTimeMillis() + (item_goHome * 1000));
-        DateFormat formatter = new SimpleDateFormat("MM月dd日 HH時mm分\nには " + homeName_str + " に");
+        DateFormat formatter = new SimpleDateFormat("MM月dd日 HH時mm分\nには " + homeName_str + " に!!!");
 
         // フォーマット
         final String nowText = formatter.format(nowitem);
-//        Toast.makeText(GoHomeMapsActivity.this,nowText + "" ,Toast.LENGTH_LONG).show();
 
 
 
@@ -220,14 +237,33 @@ public class GoHomeMapsActivity extends FragmentActivity implements OnMapReadyCa
                 YoYo.with(Techniques.SlideInDown)
                         .duration(1000)
                         .playOn(item_text);
+
+
+                //DB更新　気持ち一番最後に処理してほしい
+                Handler db_hand = new Handler();
+                Runnable dbUpdate_runnable = new Runnable() {
+                    public void run() {
+
+                        //DBに保存
+                        new Delete().from(HomeDB.class).where("home_id = ?", id).execute();
+                        HomeDB homeDB = new HomeDB();
+                        homeDB.homeId = id;              //表示するボタンの位置
+                        homeDB.home_name = homeName_str;    //家の名前
+                        homeDB.latitude = lat;         //緯度
+                        homeDB.longitude = lon;       //経度
+                        homeDB.numberOFruns = count;            //帰りたいボタンを押した数　未実装
+                        homeDB.save();
+
+                    }
+                };
+                db_hand.removeCallbacks(dbUpdate_runnable);
+                db_hand.postDelayed(dbUpdate_runnable, 1000);
+
+
             }
         };
         handler.removeCallbacks(setItemText);
         handler.postDelayed(setItemText, 2000);
-
-
-
-
 
 
         //線
@@ -240,7 +276,13 @@ public class GoHomeMapsActivity extends FragmentActivity implements OnMapReadyCa
             Polyline polyline = googleMap.addPolyline(polyOptions);
             polylines.add(polyline);
 
+
+
+
+
         }
+
+
 
     }
 
@@ -299,6 +341,14 @@ public class GoHomeMapsActivity extends FragmentActivity implements OnMapReadyCa
                     handler.removeCallbacks(invisible);
                     handler.postDelayed(invisible, 1000);
                 }
+                break;
+
+
+            case R.id.back_btn:
+                finish();
+                break;
+
+            case R.id.joke_btn:
 
                 break;
 

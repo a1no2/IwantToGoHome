@@ -3,10 +3,12 @@ package com.lifeistech.android.iwanttogohome;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -29,9 +31,17 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
-        toolbar = (Toolbar) findViewById(R.id.toolbar_setting);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setHomeButtonEnabled(true);
+//        toolbar = (Toolbar)findViewById(R.id.toolbar_setting);
+//        setSupportActionBar(toolbar);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//
+//        int ddd = getResources().getColor(R.color.common_action_bar_splitter);
+
+//        TypedValue typedValue = new TypedValue();
+//        getTheme().resolveAttribute(android.R.attr.colorBackground, typedValue, true);
+//        int resourceId = typedValue.resourceId;
+//        int colorBackground = getResources().getColor(resourceId);
+//        toolbar.setBackground();
 
 
         home_btn1 = (Button) findViewById(R.id.home_btn1);
@@ -181,24 +191,25 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
 
 
     //つーるばー
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_setting, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item){
-        switch (item.getItemId()){
-            case android.R.id.home:
-                finish();
-                break;
-
-        }
-
-
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.menu_setting, menu);
+////        toolbar = (Toolbar) findViewById(R.id.toolbar_setting);
+////        setSupportActionBar();
+////        getSupportActionBar().setHomeButtonEnabled(true);
+//        return super.onCreateOptionsMenu(menu);
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item){
+//        switch (item.getItemId()){
+//            case android.R.id.home:
+//                finish();
+//                break;
+//
+//        }
+//        return true;
+//    }
 
 }

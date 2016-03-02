@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.activeandroid.query.Select;
+import com.daimajia.androidanimations.library.YoYo;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -43,6 +44,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setting_btn = (Button) findViewById(R.id.setting_btn);
         setting_btn.setOnClickListener(this);
 
+        kae_text = (TextView)findViewById(R.id.kae_text);
 
 
 
