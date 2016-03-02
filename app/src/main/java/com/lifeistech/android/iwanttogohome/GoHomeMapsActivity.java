@@ -4,12 +4,18 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.activeandroid.query.Select;
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
+import com.directions.route.AbstractRouting;
 import com.directions.route.Route;
 import com.directions.route.RouteException;
 import com.directions.route.Routing;
@@ -38,6 +44,7 @@ public class GoHomeMapsActivity extends FragmentActivity implements OnMapReadyCa
     private ArrayList<Polyline> polylines;
     Routing routing;
 
+    TextView time_text;
     int homeId;
     double homeLatitude, homeLongitude;     //いな説じー
     double nowLatitude, nowLongitude;       //らいふょ
@@ -45,6 +52,8 @@ public class GoHomeMapsActivity extends FragmentActivity implements OnMapReadyCa
     LatLng start, end;
 
     int time_goHome;
+    private Handler handler;
+    private Runnable setTimeText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +78,13 @@ public class GoHomeMapsActivity extends FragmentActivity implements OnMapReadyCa
 
         //ルート関係
         polylines = new ArrayList<>();
+
+
+        time_text = (TextView)findViewById(R.id.time_text);
+
+
+
+
 
 
     }
@@ -121,7 +137,7 @@ public class GoHomeMapsActivity extends FragmentActivity implements OnMapReadyCa
 
         //ルート
         routing = new Routing.Builder()
-                .travelMode(Routing.TravelMode.TRANSIT)
+                .travelMode(Routing.TravelMode.WALKING)
                 .withListener(this)
                 .waypoints(start, end)
                 .build();
@@ -160,11 +176,11 @@ public class GoHomeMapsActivity extends FragmentActivity implements OnMapReadyCa
         //現在時刻
 //        Time time = new Time();
         Date nowTime = new Date(System.currentTimeMillis() + (time_goHome * 1000));
-        DateFormat formatter = new SimpleDateFormat("MM月/dd日 HH時mm分");
+        DateFormat formatter = new SimpleDateFormat("MM月dd日 HH時mm分\nには " + homeName_str + " に");
 
         // フォーマット
-        String nowText = formatter.format(nowTime);
-        Toast.makeText(GoHomeMapsActivity.this,nowText + "" ,Toast.LENGTH_LONG).show();
+        final String nowText = formatter.format(nowTime);
+//        Toast.makeText(GoHomeMapsActivity.this,nowText + "" ,Toast.LENGTH_LONG).show();
 
 
 
@@ -186,7 +202,26 @@ public class GoHomeMapsActivity extends FragmentActivity implements OnMapReadyCa
         }
         time_str += time_goHome + "秒";
         s = time_goHome;
-        Toast.makeText(GoHomeMapsActivity.this, time_str, Toast.LENGTH_LONG).show();
+//        Toast.makeText(GoHomeMapsActivity.this, time_str, Toast.LENGTH_LONG).show();
+
+        time_text.setText(nowText + "");
+
+
+        handler = new Handler();
+        setTimeText = new Runnable() {
+            public void run() {
+
+                time_text.setVisibility(View.VISIBLE);
+                YoYo.with(Techniques.SlideInDown)
+                        .duration(1000)
+                        .playOn(time_text);
+
+
+            }
+        };
+
+        handler.removeCallbacks(setTimeText);
+        handler.postDelayed(setTimeText, 2000);
 
 
 

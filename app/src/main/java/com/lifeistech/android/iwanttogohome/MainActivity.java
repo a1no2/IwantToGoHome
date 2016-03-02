@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
 
+
         home_btn1 = (Button) findViewById(R.id.home_btn1);
         home_btn1.setOnClickListener(this);
         home_btn1.setOnLongClickListener(this);

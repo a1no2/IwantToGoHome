@@ -7,31 +7,53 @@
 	tools:context="com.lifeistech.android.iwanttogohome.GoHomeMapsActivity"
 	android:weightSum="10">
 
-	<fragment
+
+	<FrameLayout
 		android:layout_width="match_parent"
 		android:layout_height="0dp"
-		android:layout_weight="9"
-		android:id="@+id/map"
-		android:name="com.google.android.gms.maps.SupportMapFragment"/>
+		android:layout_weight="9">
+		<fragment
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:id="@+id/map"
+			android:name="com.google.android.gms.maps.SupportMapFragment"/>
 
-	<!--<LinearLayout-->
-		<!--android:layout_width="match_parent"-->
-		<!--android:layout_height="0dp"-->
-		<!--android:layout_weight="1"-->
-		<!--android:orientation="horizontal"-->
-		<!--android:weightSum="10">-->
-		<!--<ImageButton-->
-			<!--android:layout_width="0dp"-->
-			<!--android:layout_height="match_parent"-->
-			<!--android:layout_weight="2"/>-->
-		<!--<Button-->
-			<!--android:layout_width="0dp"-->
-			<!--android:layout_height="match_parent"-->
-			<!--android:layout_weight="8"-->
-			<!--android:background="@android:drawable/ic_menu_help"-->
-			<!--android:text="現在地がおかしかったら...?"/>-->
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:orientation="vertical"
+			android:weightSum="10"
+			android:gravity="center">
 
-	<!--</LinearLayout>-->
+			<TextView
+				android:id="@+id/time_text"
+				android:layout_width="match_parent"
+				android:layout_height="100dp"
+				android:gravity="center"
+				android:text=""
+				android:visibility="invisible"
+				android:background="#aeee"
+				android:textSize="@dimen/top_textsize"/>
+
+		</LinearLayout>
+
+
+
+	</FrameLayout>
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
+		android:layout_weight="1"
+		android:orientation="horizontal">
+		<Button
+			android:id="@+id/aa"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:text="aaaa"/>
+	</LinearLayout>
+
+
 
 
 </LinearLayout>
