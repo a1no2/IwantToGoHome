@@ -5,7 +5,11 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -15,30 +19,34 @@ import com.activeandroid.query.Delete;
 
 import java.util.List;
 
-public class SettingActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener{
-    Button home_btn1,home_btn2,home_btn3,home_btn4;
+public class SettingActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener {
+    Button home_btn1, home_btn2, home_btn3, home_btn4;
     int btnID;
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
 
+        toolbar = (Toolbar) findViewById(R.id.toolbar_setting);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
-        home_btn1 = (Button)findViewById(R.id.home_btn1);
+
+        home_btn1 = (Button) findViewById(R.id.home_btn1);
         home_btn1.setOnClickListener(this);
         home_btn1.setOnLongClickListener(this);
-        home_btn2 = (Button)findViewById(R.id.home_btn2);
+        home_btn2 = (Button) findViewById(R.id.home_btn2);
         home_btn2.setOnClickListener(this);
         home_btn2.setOnLongClickListener(this);
-        home_btn3 = (Button)findViewById(R.id.home_btn3);
+        home_btn3 = (Button) findViewById(R.id.home_btn3);
         home_btn3.setOnClickListener(this);
         home_btn3.setOnLongClickListener(this);
-        home_btn4 = (Button)findViewById(R.id.home_btn4);
+        home_btn4 = (Button) findViewById(R.id.home_btn4);
         home_btn4.setOnClickListener(this);
         home_btn4.setOnLongClickListener(this);
     }
-
 
 
     //この画面に戻ってきたら(ry
@@ -54,10 +62,10 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
 
     }
 
-    private void setHomeName(){
+    private void setHomeName() {
         List<HomeDB> list = new Select().from(HomeDB.class).execute();
-        for (HomeDB db : list){
-            switch (db.homeId){
+        for (HomeDB db : list) {
+            switch (db.homeId) {
                 case 1:
                     home_btn1.setText(db.home_name);
                     break;
@@ -71,15 +79,14 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                     home_btn4.setText(db.home_name);
                     break;
             }
-            Log.e("DB",db.home_name);
+            Log.e("DB", db.home_name);
         }
     }
 
 
-
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.home_btn1:
                 gmapIntent(1);
                 break;
@@ -96,9 +103,9 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    private void gmapIntent(int id){
-        Intent i = new Intent(SettingActivity.this,RegistrationMapsActivity.class);
-        i.putExtra("id",id);
+    private void gmapIntent(int id) {
+        Intent i = new Intent(SettingActivity.this, RegistrationMapsActivity.class);
+        i.putExtra("id", id);
         startActivity(i);
 
     }
@@ -110,7 +117,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         btnID = v.getId();
         String text = "---";
 
-        switch (btnID){
+        switch (btnID) {
             case R.id.home_btn1:
                 text = home_btn1.getText().toString();
                 break;
@@ -126,7 +133,7 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         }
 
         //そのスロットが空なら何もしない
-        if (text.equals("---")){
+        if (text.equals("---")) {
         } else {
             AlertDialog.Builder dialog = new AlertDialog.Builder(this);
             dialog.setTitle("削除");
@@ -146,12 +153,11 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         }
 
 
-
         return true;
     }
 
     //削除のメソッド 貰ったIDの段を削除
-    private void home_delete(int id){
+    private void home_delete(int id) {
         switch (id) {
             case R.id.home_btn1:
                 new Delete().from(HomeDB.class).where("home_id = ?", 1).execute();
@@ -172,4 +178,27 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
         }
         Toast.makeText(this, "削除しました", Toast.LENGTH_SHORT).show();
     }
+
+
+    //つーるばー
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_setting, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch (item.getItemId()){
+            case android.R.id.home:
+                finish();
+                break;
+
+        }
+
+
+        return true;
+    }
+
 }
