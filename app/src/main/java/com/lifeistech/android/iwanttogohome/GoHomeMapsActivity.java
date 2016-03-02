@@ -116,6 +116,7 @@ public class GoHomeMapsActivity extends FragmentActivity implements OnMapReadyCa
     public void onMapReady(GoogleMap map) {
         googleMap = map;
 
+
         //設定の取得
         UiSettings settings = googleMap.getUiSettings();
         settings.setZoomControlsEnabled(true);
