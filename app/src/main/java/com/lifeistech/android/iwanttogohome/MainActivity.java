@@ -216,7 +216,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (tapCount[0] == 30 && tapCount[2] == 2) {
             RubberBand_bool = false;
             kae_text.setTextSize(44);
-            kae_text.setText("秘儀 アプリ落とし");
+            kae_text.setText("じゃあの…");
             YoYo.with(Techniques.FadeIn)
                     .duration(3000)
                     .playOn(kae_text);
@@ -230,7 +230,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
             };
             end_hand.removeCallbacks(end_runnab);
-            end_hand.postDelayed(end_runnab, 5000);
+            end_hand.postDelayed(end_runnab, 3500);
 
         }
 

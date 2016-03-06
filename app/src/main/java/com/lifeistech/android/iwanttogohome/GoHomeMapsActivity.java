@@ -46,6 +46,7 @@ public class GoHomeMapsActivity extends FragmentActivity implements OnMapReadyCa
     Location loc;
     private ArrayList<Polyline> polylines;
     Routing routing;
+    Button notCurrentLocation_btn;
 
     int homeId;
     double homeLatitude, homeLongitude;     //いな説じー
@@ -111,6 +112,8 @@ public class GoHomeMapsActivity extends FragmentActivity implements OnMapReadyCa
         count_text = (TextView) findViewById(R.id.count_text);
         count_text.setOnClickListener(this);
         count_bool = false;
+        notCurrentLocation_btn = (Button)findViewById(R.id.notCurrentLocation_btn);
+        notCurrentLocation_btn.setOnClickListener(this);
 
 
     }
@@ -129,18 +132,29 @@ public class GoHomeMapsActivity extends FragmentActivity implements OnMapReadyCa
         } catch (SecurityException e) {
         }
 
-        getRoute();
-
-
-    }
-
-    private void getRoute() {
-
         LocationManager locman
                 = (LocationManager) this.getSystemService(this.LOCATION_SERVICE);
         try {
             googleMap.setMyLocationEnabled(true);
             loc = locman.getLastKnownLocation("gps");
+        } catch (SecurityException e){
+        }
+
+        if (loc == null){
+            Toast.makeText(GoHomeMapsActivity.this,"あぁ^～現在地が取れていないんじゃぁ^～",Toast.LENGTH_SHORT).show();
+            Toast.makeText(GoHomeMapsActivity.this,"位置情報をオンにして\n左上の現在地取得ボタンを押してください",Toast.LENGTH_LONG).show();
+            notCurrentLocation_btn.setVisibility(View.VISIBLE);
+        } else {
+            notCurrentLocation_btn.setVisibility(View.INVISIBLE);
+            getRoute();
+        }
+
+
+    }
+
+    private void getRoute() {
+        try {
+            googleMap.setMyLocationEnabled(true);
             start = new LatLng(loc.getLatitude(), loc.getLongitude());
 //            nowLatitude = loc.getLatitude();        //緯度
 //            nowLongitude = loc.getLongitude();      //経
@@ -220,7 +234,7 @@ public class GoHomeMapsActivity extends FragmentActivity implements OnMapReadyCa
         s = item_goHome;
 //        Toast.makeText(GoHomeMapsActivity.this, item_str, Toast.LENGTH_LONG).show();
 
-        item_text.setText("今 帰りはじめれば\n" + nowText + "に\n" + homeName_str + "\nに帰れます!!!");
+        item_text.setText("今 帰り始めれば\n" + nowText + "に\n" + homeName_str + "\nに帰れます!!!");
         itemMini_text.setText(homeName_str + "\n" + nowText);
 
 
@@ -355,6 +369,26 @@ public class GoHomeMapsActivity extends FragmentActivity implements OnMapReadyCa
             case R.id.count_text:
                 count_bool = !count_bool;
                 count_text.setVisibility(View.INVISIBLE);
+                break;
+
+            case R.id.notCurrentLocation_btn:
+                LocationManager locman
+                        = (LocationManager) this.getSystemService(this.LOCATION_SERVICE);
+                try {
+                    googleMap.setMyLocationEnabled(true);
+                    loc = locman.getLastKnownLocation("gps");
+                } catch (SecurityException e){
+                }
+                if (loc == null){
+                    Toast.makeText(GoHomeMapsActivity.this,"あぁ^～現在地が取れていないんじゃぁ^～",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(GoHomeMapsActivity.this,"位置情報をオンにして\n左上の現在地取得ボタンを押してください",Toast.LENGTH_LONG).show();
+                    Toast.makeText(GoHomeMapsActivity.this,"現在地にズームできたら\nリトライ!!!",Toast.LENGTH_LONG).show();
+                    notCurrentLocation_btn.setVisibility(View.VISIBLE);
+                } else {
+                    notCurrentLocation_btn.setVisibility(View.INVISIBLE);
+                    getRoute();
+                }
+
                 break;
 
         }

@@ -88,23 +88,30 @@ public class RegistrationMapsActivity extends FragmentActivity implements OnMapR
                         = (LocationManager) this.getSystemService(this.LOCATION_SERVICE);
                 try {
                     loc = locman.getLastKnownLocation("gps");
-                    latitude = loc.getLatitude();//緯度
-                    longitude = loc.getLongitude();//経
+
+                    if (loc == null){
+                        Toast.makeText(RegistrationMapsActivity.this,"現在地が取れていなので\n左上の現在地取得ボタンを押してください",Toast.LENGTH_LONG).show();
+                        Toast.makeText(RegistrationMapsActivity.this,"また、位置情報をオンにしてください",Toast.LENGTH_LONG).show();
+                    } else {
+                        latitude = loc.getLatitude();//緯度
+                        longitude = loc.getLongitude();//経度
+
+                        //ピン置く
+                        googleMap.clear();      //前のピン消す
+                        LatLng now = new LatLng(latitude, longitude);
+                        googleMap.addMarker(new MarkerOptions().position(now));
+                        googleMap.moveCamera(CameraUpdateFactory.newLatLng(now));
+
+                        //ピンの場所まで移動のアニメーション
+                        CameraPosition nowCP = new CameraPosition.Builder()
+                                .target(now).zoom(17.0f)
+                                .bearing(0).tilt(25).build();
+                        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(nowCP));
+                    }
                 } catch (SecurityException e) {
                     Log.d("現在地取得", e.toString());
                 }
 
-                //ピン置く
-                googleMap.clear();      //前のピン消す
-                LatLng now = new LatLng(latitude, longitude);
-                googleMap.addMarker(new MarkerOptions().position(now));
-                googleMap.moveCamera(CameraUpdateFactory.newLatLng(now));
-
-                //ピンの場所まで移動のアニメーション
-                CameraPosition nowCP = new CameraPosition.Builder()
-                        .target(now).zoom(17.0f)
-                        .bearing(0).tilt(25).build();
-                googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(nowCP));
 
                 break;
 

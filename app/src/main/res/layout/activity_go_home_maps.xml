@@ -82,6 +82,14 @@
 			android:visibility="invisible"
 			android:gravity="center_horizontal"/>
 
+		<Button
+			android:id="@+id/notCurrentLocation_btn"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:text="リトライ"
+			android:visibility="invisible"/>
+
 
 	</FrameLayout>
 
